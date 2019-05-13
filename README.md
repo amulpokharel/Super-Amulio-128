@@ -2,7 +2,7 @@
 The source code for Super Amulio 128, Written in C# with Unity
 
 
-//Credits//
+//Credits///
 
 Thanks to:
 https://www.bfxr.net/ for the sound-effects
