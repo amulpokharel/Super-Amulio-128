@@ -6,11 +6,13 @@ public class PowerupBehaviour : MonoBehaviour
 {
     private Rigidbody2D powerupBody;
     private Vector3 direction;
+    public bool facingRight;
 
     // Start is called before the first frame update
     void Start()
-    { 
-        if (PlayerMove.facingRight)
+    {
+        facingRight = PlayerMove.facingRight;
+        if (facingRight)
             direction = new Vector3(-3, 0, 0);
         else
             direction = new Vector3(3, 0, 0);
@@ -26,21 +28,27 @@ public class PowerupBehaviour : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "WallLeft")
-        {
-            Vector3 temp = direction;
-            temp.x *= -1;
-            direction = temp;
-        }
-        else if (collision.gameObject.tag == "WallRight")
-        {
-            Vector3 temp = direction;
-            temp.x = Mathf.Abs(temp.x);
-            direction = temp;
-        }
-        else if(collision.gameObject.tag == "Player")
+        facingRight = !facingRight;
+
+        if (collision.gameObject.tag == "Player")
         {
             Destroy(gameObject);
+        }
+        else if (collision.gameObject.tag == "Ground")
+        {
+
+        }
+        else
+        {
+            Vector3 temp = direction;
+            if ((temp.x / Mathf.Abs(temp.x)) == -1)
+                temp.x = Mathf.Abs(temp.x);
+            else
+                temp.x *= -1;
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+            direction = temp;
         }
     }
 }
